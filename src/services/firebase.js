@@ -1,0 +1,79 @@
+import app from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/firebase-firestore';
+
+const config = {
+  apiKey: 'AIzaSyCdkCZPpm-9gukePZ6zD68Q7ERRdFahoEA',
+  authDomain: 'textn-ae215.firebaseapp.com',
+  databaseURL: 'https://textn-ae215-default-rtdb.firebaseio.com',
+  projectId: 'textn-ae215',
+  storageBucket: 'textn-ae215.appspot.com',
+  messagingSenderId: '1098055262951',
+  appId: '1:1098055262951:web:240906057245c1c4283842',
+};
+
+class Firebase {
+  constructor() {
+    app.initializeApp(config);
+    this.auth = app.auth();
+    this.db = app.firestore();
+  }
+
+  async login({ email, password }) {
+    await this.auth.signInWithEmailAndPassword(email, password);
+    return this.getUserByID(this.auth.currentUser.uid);
+  }
+
+  logout() {
+    return this.auth.signOut();
+  }
+
+  async register({ firstName, lastName, email, password, birthDate }) {
+    const { user } = await this.auth.createUserWithEmailAndPassword(
+      email,
+      password
+    );
+
+    await this.db.collection('usersCollection').add({
+      uid: user.uid,
+      firstName,
+      lastName,
+      birthDate,
+      registrationDate: new Date(),
+      email,
+    });
+
+    return this.getUserByID(this.auth.currentUser.uid);
+  }
+
+  getUserByID(uid) {
+    console.log(uid);
+    return this.db.collection('usersCollection').where('uid', '==', uid).get();
+  }
+
+  async isInitialized() {
+    await new Promise(resolve => {
+      this.auth.onAuthStateChanged(resolve);
+    });
+    console.log(this.auth.currentUser);
+    if (this.auth.currentUser)
+      return this.getUserByID(this.auth.currentUser.uid);
+    return null;
+  }
+
+  getCurrentUsername() {
+    return this.auth.currentUser && this.auth.currentUser.displayFirstName;
+  }
+
+  async editProfile(values) {
+    const userRecord = (await this.getUserByID(this.auth.currentUser.uid))
+      .docs[0];
+
+    await this.db
+      .collection('usersCollection')
+      .doc(userRecord.id)
+      .update(values);
+  }
+}
+
+export default new Firebase();
