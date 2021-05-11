@@ -1,29 +1,54 @@
 import React from 'react';
-import { Paper, Avatar, CircularProgress, Typography } from '@material-ui/core';
+import {
+  Container,
+  CircularProgress,
+  Typography,
+  Button,
+} from '@material-ui/core';
 import { connect } from 'react-redux';
 import ProfileTabs from '../../components/ProfileTabs';
 import { makeStyles } from '@material-ui/core/styles';
 import NavBar from '../../components/NavBar';
+import Gravatar from 'react-gravatar';
+import { useParams } from 'react-router-dom';
+import { getAnotherUser, subscribe } from '../../store/actions/user';
 
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     alignItems: 'center',
-
     '& > *': {
-      margin: theme.spacing(1),
+      margin: theme.spacing(3),
     },
   },
   large: {
-    width: theme.spacing(20),
-    height: theme.spacing(20),
+    width: theme.spacing(15),
+    height: theme.spacing(15),
+    borderRadius: '100%',
+    size: '100px',
+    rating: 'pg',
+  },
+  paper: {
+    display: 'block',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
 }));
 
-function Profile({ user }) {
+function Profile({ user, anotherUser }) {
   const classes = useStyles();
 
-  if (!user) {
+  const params = useParams();
+  const anotherUserID = params.id;
+  const selectedUser = anotherUserID ? anotherUser : user;
+
+  React.useEffect(() => {
+    if (anotherUserID) {
+      getAnotherUser(anotherUserID);
+    }
+  }, [anotherUserID]);
+
+  if (!selectedUser) {
     return (
       <div id="loader">
         <CircularProgress />
@@ -34,26 +59,35 @@ function Profile({ user }) {
   return (
     <div>
       <NavBar />
-      <Paper>
-        <div className={classes.root}>
-          <Avatar
-            alt="Remy Sharp"
-            src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50.jpg"
-            className={classes.large}
-          />
-          <div>
-            <Typography variant="h5">{user.firstName}</Typography>
-            <Typography variant="h6">{user.lastName}</Typography>
+      <main>
+        <Container maxWidth="sm">
+          <div className={classes.root}>
+            <Gravatar className={classes.large} email={selectedUser.email} />
+            <div>
+              <Typography variant="h5">{selectedUser.firstName}</Typography>
+              <Typography variant="h6">{selectedUser.lastName}</Typography>
+            </div>
+            <div>
+              {anotherUserID && (
+                <Button
+                  onClick={() => subscribe(anotherUserID)}
+                  variant="contained"
+                >
+                  Подписаться
+                </Button>
+              )}
+            </div>
           </div>
-        </div>
-      </Paper>
-      <Paper>
-        <ProfileTabs />
-      </Paper>
+          <ProfileTabs isAnotherUser={!!anotherUserID} />
+        </Container>
+      </main>
     </div>
   );
 }
 
-const mapStateToProps = state => ({ user: state.user.user });
+const mapStateToProps = state => ({
+  user: state.user.user,
+  anotherUser: state.user.anotherUser,
+});
 
 export default connect(mapStateToProps)(Profile);

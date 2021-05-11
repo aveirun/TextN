@@ -13,6 +13,7 @@ export const login = async values => {
       return null;
     }
     dispatch({ type: types.USER__LOGIN_SUCCESS, user });
+    dispatch(push('/profile'));
   } catch (error) {
     console.log(error);
     return { [FORM_ERROR]: 'invalid email or password' };
@@ -56,5 +57,37 @@ export const editProfile = async values => {
   } catch (error) {
     console.log(error);
     return { [FORM_ERROR]: 'invalid form' };
+  }
+};
+
+export const subscribe = async userID => {
+  try {
+    const response = await firebase.subscribe(userID);
+    const subscriptions = response.docs[0].data();
+    dispatch({ type: types.USER__SUBSCRIBE, subscriptions });
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
+export const unsubscribe = async userID => {
+  try {
+    await firebase.unsubscribe(userID);
+    dispatch({ type: types.USER__UNSUBSCRIBE, userID });
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
+export const getAnotherUser = async userID => {
+  try {
+    const response = await firebase.getUserByID(userID);
+    const anotherUser = response.docs[0].data();
+    dispatch({ type: types.USER__GET_ANOTHER_USER_SUCCESS, anotherUser });
+  } catch (error) {
+    console.log(error);
+    return null;
   }
 };

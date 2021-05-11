@@ -3,13 +3,13 @@ import 'firebase/auth';
 import 'firebase/firebase-firestore';
 
 const config = {
-  apiKey: 'AIzaSyCdkCZPpm-9gukePZ6zD68Q7ERRdFahoEA',
-  authDomain: 'textn-ae215.firebaseapp.com',
-  databaseURL: 'https://textn-ae215-default-rtdb.firebaseio.com',
-  projectId: 'textn-ae215',
-  storageBucket: 'textn-ae215.appspot.com',
-  messagingSenderId: '1098055262951',
-  appId: '1:1098055262951:web:240906057245c1c4283842',
+  apiKey: 'fwfhweuhiasIHUIFHSjon787',
+  authDomain: 'myapp@firebase.com',
+  databaseURL: 'https://myapp@firebase.com',
+  projectId: 'myapp',
+  storageBucket: 'myapp@firebase.com',
+  messagingSenderId: '739752720028',
+  appId: '1:5830530990:web:80345830958305',
 };
 
 class Firebase {
@@ -41,6 +41,8 @@ class Firebase {
       birthDate,
       registrationDate: new Date(),
       email,
+      subscriptions: [],
+      posts: [],
     });
 
     return this.getUserByID(this.auth.currentUser.uid);
@@ -73,6 +75,53 @@ class Firebase {
       .collection('usersCollection')
       .doc(userRecord.id)
       .update(values);
+  }
+
+  async subscribe(userID) {
+    const userRecord = (await this.getUserByID(this.auth.currentUser.uid))
+      .docs[0];
+
+    await this.db
+      .collection('usersCollection')
+      .doc(userRecord.id)
+      .update({
+        subscriptions: [
+          ...userRecord.subscriptions,
+          this.db.doc('usersCollections/' + userID),
+        ],
+      });
+  }
+
+  async unsubscribe(userID) {
+    const userRecord = await this.getUserByID(this.auth.currentUser.uid);
+    await this.db
+      .collection('usersCollection')
+      .doc(userRecord.id)
+      .delete({
+        subscriptions: [
+          ...userRecord.subscriptions,
+          this.db.doc('usersCollections/' + userID),
+        ],
+      });
+  }
+
+  async addPost(postID) {
+    const postRecord = await this.getPostByID(this.auth.currentUser.uid)
+      .docs[0];
+
+    await this.db
+      .collection('postsCollection')
+      .add({ posts: [] })
+      .doc(postRecord.id)
+      .update({
+        posts: [...postRecord.posts, this.db.doc('postsCollections/' + postID)],
+      });
+    return this.getPostByID;
+  }
+
+  getPostByID(id) {
+    console.log(id);
+    return this.db.collection('postsCollection').where('id', '==', id).get();
   }
 }
 

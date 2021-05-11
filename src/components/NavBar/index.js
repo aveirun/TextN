@@ -4,12 +4,12 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import { connect } from 'react-redux';
 import { logout } from '../../store/actions/user';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import { Avatar } from '@material-ui/core';
+import Gravatar from 'react-gravatar';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -20,6 +20,27 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     flexGrow: 1,
+  },
+  link: {
+    fontSize: '1rem',
+    fontWeight: 'medium',
+    margin: theme.spacing(2),
+
+    '&:visited': {
+      color: 'white',
+    },
+
+    '&:hover': {
+      color: 'blue',
+      transitionDuration: '0.3s',
+    },
+  },
+  small: {
+    width: theme.spacing(6),
+    height: theme.spacing(6),
+    borderRadius: '50%',
+    size: '50px',
+    rating: 'pg',
   },
 }));
 
@@ -44,17 +65,16 @@ function NavBar({ user }) {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-          >
-            <MenuIcon />
-          </IconButton>
           <Typography variant="h6" className={classes.title}>
-            Мой профиль
+            <Link className={classes.link} to="/profile">
+              Мой профиль
+            </Link>
+
+            <Link className={classes.link} to="/news">
+              Новости
+            </Link>
           </Typography>
+
           {user && (
             <div>
               <IconButton
@@ -64,11 +84,7 @@ function NavBar({ user }) {
                 onClick={handleMenu}
                 color="inherit"
               >
-                <Avatar
-                  alt="Remy Sharp"
-                  src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50.jpg"
-                  className={classes.small}
-                />
+                <Gravatar email={user.email} className={classes.small} />
               </IconButton>
               <Menu
                 id="menu-appbar"
@@ -85,8 +101,8 @@ function NavBar({ user }) {
                 open={!!anchorEl}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Settings</MenuItem>
-                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                <MenuItem onClick={handleClose}>Настройки</MenuItem>
+                <MenuItem onClick={handleLogout}>Выйти</MenuItem>
               </Menu>
             </div>
           )}

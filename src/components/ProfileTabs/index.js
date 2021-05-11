@@ -6,32 +6,37 @@ import ProfileSubscriptions from './ProfileSubscriptions';
 import ProfileFollowers from './ProfileFollowers';
 import ProfilePosts from './ProfilePosts';
 
-const ProfileTabs = () => {
+const ProfileTabs = ({ isAnotherUser }) => {
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
+  let tabs = [
+    { label: <Tab label="Редактирование" />, value: <ProfileEdit /> },
+    { label: <Tab label="Подписки" />, value: <ProfileSubscriptions /> },
+    { label: <Tab label="Подписчики" />, value: <ProfileFollowers /> },
+    { label: <Tab label="Посты" />, value: <ProfilePosts /> },
+  ];
+
+  if (isAnotherUser) {
+    tabs = tabs.slice(1);
+  }
+
   return (
-    <>
+    <div>
       <Tabs
         value={value}
         onChange={handleChange}
         indicatorColor="primary"
         textColor="primary"
-        centered
+        variant="scrollable"
       >
-        <Tab label="Редактирование" />
-        <Tab label="Подписки" />
-        <Tab label="Подписчики" />
-        <Tab label="Посты" />
+        {tabs.map(tab => tab.label)}
       </Tabs>
-      {value === 0 && <ProfileEdit />}
-      {value === 1 && <ProfileSubscriptions />}
-      {value === 2 && <ProfileFollowers />}
-      {value === 3 && <ProfilePosts />}
-    </>
+      {tabs.map((tab, id) => value === id && tab.value)}
+    </div>
   );
 };
 
