@@ -3,13 +3,13 @@ import 'firebase/auth';
 import 'firebase/firebase-firestore';
 
 const config = {
-  apiKey: 'fwfhweuhiasIHUIFHSjon787',
-  authDomain: 'myapp@firebase.com',
-  databaseURL: 'https://myapp@firebase.com',
-  projectId: 'myapp',
-  storageBucket: 'myapp@firebase.com',
-  messagingSenderId: '739752720028',
-  appId: '1:5830530990:web:80345830958305',
+  apiKey: 'AIzaSyCdkCZPpm-9gukePZ6zD68Q7ERRdFahoEA',
+  authDomain: 'textn-ae215.firebaseapp.com',
+  databaseURL: 'https://textn-ae215-default-rtdb.firebaseio.com',
+  projectId: 'textn-ae215',
+  storageBucket: 'textn-ae215.appspot.com',
+  messagingSenderId: '1098055262951',
+  appId: '1:1098055262951:web:240906057245c1c4283842',
 };
 
 class Firebase {
@@ -105,22 +105,37 @@ class Firebase {
       });
   }
 
-  async addPost(postID) {
-    const postRecord = await this.getPostByID(this.auth.currentUser.uid)
-      .docs[0];
+  // async addPost(post) {
+  //   const postRecord = (await this.getPostByID(this.db.post.id)).docs[0];
 
-    await this.db
-      .collection('postsCollection')
-      .add({ posts: [] })
-      .doc(postRecord.id)
-      .update({
-        posts: [...postRecord.posts, this.db.doc('postsCollections/' + postID)],
-      });
-    return this.getPostByID;
+  //   await this.db
+  //     .collection('postsCollection')
+  //     .doc(postRecord.id)
+  //     .update({
+  //       posts: [...postRecord.posts, this.db.doc('postsCollections/' + post)],
+  //     });
+  //   console.log(postRecord);
+  // }
+
+  async addPost(post) {
+    return await new Promise(resolve => {
+      this.db
+        .collection('postsCollection')
+        .add({
+          post,
+          postDate: new Date(),
+        })
+        .then(post => {
+          console.log('Document written with ID: ', post.id);
+          resolve(this.getPostByID(post.id));
+        })
+        .catch(error => {
+          console.error('Error adding document: ', error);
+        });
+    });
   }
 
   getPostByID(id) {
-    console.log(id);
     return this.db.collection('postsCollection').where('id', '==', id).get();
   }
 }

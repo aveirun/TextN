@@ -7,7 +7,7 @@ import NotFound from '../NotFound';
 import { checkInitialized } from '../../store/actions/user';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { CssBaseline, CircularProgress } from '@material-ui/core';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { history } from '../../store';
@@ -38,6 +38,7 @@ function App({ user }) {
         <CssBaseline />
         {user ? (
           <Switch>
+            <Redirect exact from="/" to="/profile" />
             <Route exact path="/profile" component={Profile} />
             <Route path="/profile/:id" component={Profile} />
             <Route path="/news" component={News} />

@@ -32,7 +32,7 @@ const postReducer = (state = initialState, action) => {
       return {
         ...state,
         posts: state.posts.map(p =>
-          p.id === action.payload.id ? action.payload : p
+          p._id === action.payload._id ? action.payload : p
         ),
       };
     case types.UPDATE_POST:
@@ -43,12 +43,12 @@ const postReducer = (state = initialState, action) => {
     case types.ADD_POST:
       return {
         ...state,
-        post: [action.payload, ...state.posts],
+        post: action.payload,
       };
     case types.DELETE_POST:
       return {
         ...state,
-        posts: state.posts.filter(post => post.id !== action.payload),
+        posts: state.posts.filter(post => post._id !== action.payload),
       };
 
     default:

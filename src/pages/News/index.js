@@ -7,7 +7,7 @@ import {
   Container,
   Card,
   CssBaseline,
-  TextField,
+  Typography,
 } from '@material-ui/core';
 import { addPost } from '../../store/actions/post';
 import { makeStyles } from '@material-ui/core/styles';
@@ -15,15 +15,15 @@ import NavBar from '../../components/NavBar';
 import Gravatar from 'react-gravatar';
 import { connect } from 'react-redux';
 import { Form } from 'react-final-form';
+import Input from '../../components/Input';
 
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     alignItems: 'center',
-    fontSize: '15px',
-    fontWeight: 'bolder',
+
     '& > *': {
-      margin: theme.spacing(3),
+      margin: theme.spacing(),
     },
   },
   heroContent: {
@@ -39,15 +39,16 @@ const useStyles = makeStyles(theme => ({
   },
   card: {
     height: '100%',
-    display: 'flex',
     flexDirection: 'column',
+    flexGrow: 1,
   },
   cardContent: {
     flexGrow: 1,
   },
   text: {
-    marginLeft: theme.spacing(),
-    marginRight: theme.spacing(),
+    display: 'flex',
+    alignItems: 'center',
+    margin: theme.spacing(),
   },
   small: {
     marginLeft: theme.spacing(),
@@ -59,7 +60,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+const posts = [{}];
 
 function News({ user }) {
   const classes = useStyles();
@@ -75,8 +76,10 @@ function News({ user }) {
               onSubmit={addPost}
               render={({ handleSubmit }) => (
                 <form className={classes.form} onSubmit={handleSubmit}>
-                  <TextField
+                  <Input
+                    name="message"
                     variant="outlined"
+                    placeholder="What's up?"
                     fullWidth
                     inputProps={{ maxLength: 140 }}
                   />
@@ -94,32 +97,29 @@ function News({ user }) {
           </Container>
         </div>
         <Container className={classes.cardGrid} maxWidth="sm">
-          <Grid container spacing={4}>
-            {cards.map(card => (
-              <Grid item key={card}>
-                <Card className={classes.card}>
-                  <CardContent className={classes.cardContent}>
-                    <div className={classes.root}>
-                      <Gravatar email="email" className={classes.small} />
-                      {user.firstName}
-                    </div>
-                    <div className={classes.text}>
-                      This is a media card. You can use this section to describe
-                      the content.
-                    </div>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small" color="primary">
-                      Like
-                    </Button>
-                    <Button size="small" color="primary">
-                      Follow
-                    </Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
+          {posts.map(p => (
+            <Grid item key={p.id} className={classes.root}>
+              <Card className={classes.card}>
+                <CardContent className={classes.cardContent}>
+                  <div className={classes.root}>
+                    <Gravatar email="email" className={classes.small} />
+                    <Typography
+                      className={classes.text}
+                    >{` ${user.firstName} ${user.lastName}`}</Typography>
+                  </div>
+                  <div className={classes.text}>{p.post}</div>
+                </CardContent>
+                <CardActions>
+                  <Button size="small" color="primary">
+                    Like
+                  </Button>
+                  <Button size="small" color="primary">
+                    Follow
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+          ))}
         </Container>
       </main>
     </Fragment>

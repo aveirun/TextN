@@ -28,6 +28,7 @@ const useStyles = makeStyles(theme => ({
   },
   card: {
     height: '100%',
+    // flexDirection: 'column',
     flexGrow: 1,
   },
 
@@ -43,14 +44,16 @@ const useStyles = makeStyles(theme => ({
     marginLeft: theme.spacing(),
   },
   text: {
-    marginLeft: theme.spacing(),
+    display: 'flex',
+    alignItems: 'center',
+    margin: theme.spacing(),
   },
   button: {
-    marginLeft: theme.spacing(),
+    margin: theme.spacing(),
   },
 }));
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+const cards = [{}];
 
 function ProfilePosts({ user }) {
   const classes = useStyles();
@@ -59,36 +62,26 @@ function ProfilePosts({ user }) {
     <Fragment>
       <main>
         <Container className={classes.cardGrid} maxWidth="sm">
-          <Grid container spacing={4}>
-            {cards.map(card => (
-              <Grid item key={card} justify="center">
-                <Card className={classes.card}>
-                  <CardContent>
-                    <div className={classes.root}>
-                      <Gravatar email={user.email} className={classes.small} />
-                      <Typography gutterBottom variant="h6" component="h2">
-                        {` ${user.firstName} ${user.lastName}`}
-                      </Typography>
-                    </div>
+          {cards.map(card => (
+            <Grid item key={card} className={classes.root}>
+              <Card className={classes.card}>
+                <CardContent className={classes.cardContent}>
+                  <div className={classes.root}>
+                    <Gravatar email="email" className={classes.small} />
                     <Typography className={classes.text}>
-                      This is a media card. You can use this section to describe
-                      the content.
+                      {user.firstName}
                     </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button
-                      variant="contained"
-                      size="small"
-                      color="primary"
-                      className={classes.button}
-                    >
-                      Edit
-                    </Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
+                  </div>
+                  <div className={classes.text}>{card.message}</div>
+                </CardContent>
+                <CardActions className={classes.root}>
+                  <Button size="small" color="primary">
+                    Удалить
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+          ))}
         </Container>
       </main>
     </Fragment>

@@ -67,7 +67,7 @@ export const subscribe = async userID => {
     dispatch({ type: types.USER__SUBSCRIBE, subscriptions });
   } catch (error) {
     console.log(error);
-    return null;
+    return;
   }
 };
 
