@@ -105,18 +105,6 @@ class Firebase {
       });
   }
 
-  // async addPost(post) {
-  //   const postRecord = (await this.getPostByID(this.db.post.id)).docs[0];
-
-  //   await this.db
-  //     .collection('postsCollection')
-  //     .doc(postRecord.id)
-  //     .update({
-  //       posts: [...postRecord.posts, this.db.doc('postsCollections/' + post)],
-  //     });
-  //   console.log(postRecord);
-  // }
-
   async addPost(post) {
     return await new Promise(resolve => {
       this.db
