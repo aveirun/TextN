@@ -7,7 +7,6 @@ import { push } from 'connected-react-router';
 export const addPost = async post => {
   try {
     const response = await firebase.addPost(post);
-    console.log(response);
 
     dispatch({ type: types.ADD_POST, payload: response.data });
   } catch (error) {
@@ -18,10 +17,12 @@ export const addPost = async post => {
 
 export const getPostByID = async id => {
   try {
-    const response = await firebase.getPostByID(id);
+    const response = await firebase.getPostByID(`/news/ ${id}`);
+
+    console.log(response);
     dispatch({
       type: types.GET_POST_BY_ID,
-      payload: response.docs[0].data(),
+      payload: response.data,
     });
     dispatch(push('/news'));
   } catch {

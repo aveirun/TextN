@@ -62,7 +62,7 @@ function Login() {
           render={({ handleSubmit, submitError }) => (
             <form className={classes.form} onSubmit={handleSubmit}>
               <Input
-                label="Email Address"
+                label="Email"
                 name="email"
                 type="email"
                 autoFocus

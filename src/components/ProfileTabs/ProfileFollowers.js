@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
 
 const followers = [
   {
-    img: '/static/images/avatar/1.jpg',
+    img: 'https://gtavrl.ru/public/poscreenra.jpg',
     name: 'Ali Conors',
     email: 'ali@gmail.com',
   },
@@ -59,7 +59,7 @@ function ProfileFollowers() {
               color="primary"
               className={classes.button}
             >
-              Посмотреть
+              Message
             </Button>
           </ListItem>
           <Divider variant="inset" component="li" />

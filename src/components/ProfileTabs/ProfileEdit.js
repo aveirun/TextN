@@ -42,7 +42,7 @@ function ProfileEdit({ user }) {
               color="primary"
               className={classes.submit}
             >
-              Сохранить
+              Save
             </Button>
           </form>
         )}

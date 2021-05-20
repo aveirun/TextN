@@ -58,11 +58,8 @@ function Register() {
           render={({ handleSubmit, submitError }) => (
             <form className={classes.form} onSubmit={handleSubmit}>
               <Input label="First name" name="firstName" autoFocus required />
-
               <Input label="Last name" name="lastName" required />
-
               <Input label="Email" name="email" type="email" required />
-
               <Input
                 name="password"
                 type="password"
@@ -70,7 +67,7 @@ function Register() {
                 required
               />
 
-              <Input name="birthDate" type="date" label="Birth date" required />
+              <Input name="date" label="Birth date" maxLength="10" required />
 
               {submitError && (
                 <div className={classes.error}>{submitError}</div>
@@ -85,7 +82,6 @@ function Register() {
               >
                 Register
               </Button>
-
               <Button
                 fullWidth
                 variant="contained"

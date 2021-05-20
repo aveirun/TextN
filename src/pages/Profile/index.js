@@ -9,9 +9,10 @@ import { connect } from 'react-redux';
 import ProfileTabs from '../../components/ProfileTabs';
 import { makeStyles } from '@material-ui/core/styles';
 import NavBar from '../../components/NavBar';
-import Gravatar from 'react-gravatar';
+
 import { useParams } from 'react-router-dom';
 import { getAnotherUser, subscribe } from '../../store/actions/user';
+import Gravatar from 'react-gravatar';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -73,7 +74,7 @@ function Profile({ user, anotherUser }) {
                   onClick={() => subscribe(anotherUserID)}
                   variant="contained"
                 >
-                  Подписаться
+                  Follow
                 </Button>
               )}
             </div>

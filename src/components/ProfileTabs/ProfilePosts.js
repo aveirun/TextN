@@ -7,28 +7,20 @@ import {
   Container,
   Card,
   Typography,
+  Avatar,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Gravatar from 'react-gravatar';
+
 import { connect } from 'react-redux';
+import Gravatar from 'react-gravatar';
 
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
-    alignItems: 'center',
-
-    '& > *': {
-      margin: theme.spacing(),
-    },
   },
 
-  cardGrid: {
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4),
-  },
   card: {
     height: '100%',
-    // flexDirection: 'column',
     flexGrow: 1,
   },
 
@@ -41,12 +33,12 @@ const useStyles = makeStyles(theme => ({
     borderRadius: '50%',
     size: '50px',
     rating: 'pg',
-    marginLeft: theme.spacing(),
   },
   text: {
     display: 'flex',
     alignItems: 'center',
     margin: theme.spacing(),
+    marginLeft: theme.spacing(2),
   },
   button: {
     margin: theme.spacing(),
@@ -75,8 +67,12 @@ function ProfilePosts({ user }) {
                   <div className={classes.text}>{card.message}</div>
                 </CardContent>
                 <CardActions className={classes.root}>
-                  <Button size="small" color="primary">
-                    Удалить
+                  <Button
+                    size="small"
+                    color="primary"
+                    className={classes.button}
+                  >
+                    Delete
                   </Button>
                 </CardActions>
               </Card>

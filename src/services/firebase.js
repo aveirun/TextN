@@ -114,7 +114,6 @@ class Firebase {
           postDate: new Date(),
         })
         .then(post => {
-          console.log('Document written with ID: ', post.id);
           resolve(this.getPostByID(post.id));
         })
         .catch(error => {
@@ -124,7 +123,15 @@ class Firebase {
   }
 
   getPostByID(id) {
-    return this.db.collection('postsCollection').where('id', '==', id).get();
+    return this.db
+      .collection('postsCollection')
+      .doc(id)
+      .get()
+      .then(doc => {
+        if (doc.exists) {
+          return doc.data();
+        }
+      });
   }
 }
 

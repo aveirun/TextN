@@ -26,7 +26,7 @@ const postReducer = (state = initialState, action) => {
     case types.GET_POST_BY_ID:
       return {
         ...state,
-        post: action.payload,
+        post: [action.payload, ...state.posts],
       };
     case types.UPDATE_POSTS:
       return {

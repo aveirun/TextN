@@ -7,15 +7,16 @@ import {
   Container,
   Card,
   CssBaseline,
-  Typography,
+  ListItemText,
 } from '@material-ui/core';
 import { addPost } from '../../store/actions/post';
 import { makeStyles } from '@material-ui/core/styles';
 import NavBar from '../../components/NavBar';
-import Gravatar from 'react-gravatar';
+
 import { connect } from 'react-redux';
 import { Form } from 'react-final-form';
 import Input from '../../components/Input';
+import Gravatar from 'react-gravatar';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -33,6 +34,7 @@ const useStyles = makeStyles(theme => ({
   heroButtons: {
     marginTop: theme.spacing(2),
   },
+
   cardGrid: {
     paddingTop: theme.spacing(8),
     paddingBottom: theme.spacing(8),
@@ -52,15 +54,20 @@ const useStyles = makeStyles(theme => ({
   },
   small: {
     marginLeft: theme.spacing(),
-    width: theme.spacing(6),
-    height: theme.spacing(6),
+    width: theme.spacing(7),
+    height: theme.spacing(7),
     borderRadius: '50%',
-    size: '50px',
     rating: 'pg',
   },
 }));
 
-const posts = [{}];
+const posts = [
+  {
+    authtor: 'Sara Ross',
+    post: `Hi, I'm here!`,
+    postDate: '16.05.2021',
+  },
+];
 
 function News({ user }) {
   const classes = useStyles();
@@ -89,7 +96,7 @@ function News({ user }) {
                     variant="contained"
                     color="primary"
                   >
-                    Сохранить
+                    Save
                   </Button>
                 </form>
               )}
@@ -98,27 +105,30 @@ function News({ user }) {
         </div>
         <Container className={classes.cardGrid} maxWidth="sm">
           {posts.map(p => (
-            <Grid item key={p.id} className={classes.root}>
-              <Card className={classes.card}>
-                <CardContent className={classes.cardContent}>
-                  <div className={classes.root}>
-                    <Gravatar email="email" className={classes.small} />
-                    <Typography
-                      className={classes.text}
-                    >{` ${user.firstName} ${user.lastName}`}</Typography>
-                  </div>
-                  <div className={classes.text}>{p.post}</div>
-                </CardContent>
-                <CardActions>
-                  <Button size="small" color="primary">
-                    Like
-                  </Button>
-                  <Button size="small" color="primary">
-                    Follow
-                  </Button>
-                </CardActions>
-              </Card>
-            </Grid>
+            <React.Fragment key={p.id}>
+              <Grid className={classes.root}>
+                <Card className={classes.card}>
+                  <CardContent>
+                    <div className={classes.root}>
+                      <Gravatar email="email" className={classes.small} />
+                      <div>
+                        <ListItemText primary={p.authtor} />
+                        <ListItemText secondary={p.postDate} />
+                      </div>
+                    </div>
+                    <div className={classes.text}>{p.post}</div>
+                  </CardContent>
+                  <CardActions>
+                    <Button size="small" color="primary">
+                      Like
+                    </Button>
+                    <Button size="small" color="primary">
+                      Follow
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            </React.Fragment>
           ))}
         </Container>
       </main>

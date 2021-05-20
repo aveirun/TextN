@@ -14,10 +14,10 @@ const ProfileTabs = ({ isAnotherUser }) => {
   };
 
   let tabs = [
-    { label: <Tab label="Редактирование" />, value: <ProfileEdit /> },
-    { label: <Tab label="Подписки" />, value: <ProfileSubscriptions /> },
-    { label: <Tab label="Подписчики" />, value: <ProfileFollowers /> },
-    { label: <Tab label="Посты" />, value: <ProfilePosts /> },
+    { label: <Tab label="Edit" />, value: <ProfileEdit /> },
+    { label: <Tab label="Following" />, value: <ProfileSubscriptions /> },
+    { label: <Tab label="Followers" />, value: <ProfileFollowers /> },
+    { label: <Tab label="Posts" />, value: <ProfilePosts /> },
   ];
 
   if (isAnotherUser) {

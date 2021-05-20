@@ -30,9 +30,9 @@ function ProfileSubscriptions() {
 
   const subscriptions = [
     {
-      img: '/static/images/avatar/1.jpg',
-      name: 'Ali Conors',
-      email: 'ali@gmail.com',
+      img: 'https://99px.ru/sstorage/53/2016/06/tmb_169460_2461.jpg',
+      name: 'Karina Gold',
+      email: 'gold@gmail.com',
     },
   ];
 
@@ -60,7 +60,7 @@ function ProfileSubscriptions() {
               color="primary"
               className={classes.button}
             >
-              Отписаться
+              Unfollow
             </Button>
           </ListItem>
           <Divider variant="inset" component="li" />

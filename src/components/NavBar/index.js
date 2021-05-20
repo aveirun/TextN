@@ -8,8 +8,9 @@ import { connect } from 'react-redux';
 import { logout } from '../../store/actions/user';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import Gravatar from 'react-gravatar';
+
 import { Link } from 'react-router-dom';
+import Gravatar from 'react-gravatar';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -66,11 +67,11 @@ function NavBar({ user }) {
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
             <Link className={classes.link} to="/profile">
-              Мой профиль
+              Profile
             </Link>
 
             <Link className={classes.link} to="/news">
-              Новости
+              Feed
             </Link>
           </Typography>
 
@@ -100,8 +101,8 @@ function NavBar({ user }) {
                 open={!!anchorEl}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Настройки</MenuItem>
-                <MenuItem onClick={handleLogout}>Выйти</MenuItem>
+                <MenuItem onClick={handleClose}>Settings</MenuItem>
+                <MenuItem onClick={handleLogout}>Log out</MenuItem>
               </Menu>
             </div>
           )}
